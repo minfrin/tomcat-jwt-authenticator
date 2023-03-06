@@ -3,7 +3,7 @@
 
   <groupId>fm.sharp.tomcat</groupId>
   <artifactId>tomcat-jwt-authenticator</artifactId>
-  <version>1.4.0</version>
+  <version>1.4.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Tomcat JWT Authenticator</name>
   <description>Tomcat authenticator that accepts JWT Bearer tokens for login.</description>
@@ -17,9 +17,9 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/tags/tomcat-jwt-authenticator-1.4.0</connection>
-    <developerConnection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/tags/tomcat-jwt-authenticator-1.4.0</developerConnection>
-    <url>https://github.com/minfrin/tomcat-jwt-authenticator/tags/tomcat-jwt-authenticator-1.4.0</url>
+    <connection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/trunk</connection>
+    <developerConnection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/trunk</developerConnection>
+    <url>https://github.com/minfrin/tomcat-jwt-authenticator/trunk</url>
   </scm>
 
   <build>
