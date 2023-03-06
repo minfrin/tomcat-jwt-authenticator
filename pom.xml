@@ -2,10 +2,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>fm.sharp.tomcat</groupId>
-  <artifactId>tomcat7-jwt-authenticator</artifactId>
-  <version>1.1.2-SNAPSHOT</version>
+  <artifactId>tomcat-jwt-authenticator</artifactId>
+  <version>1.2.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>Tomcat JWT Auhtenticator</name>
+  <name>Tomcat JWT Authenticator</name>
   <description>Tomcat authenticator that accepts JWT Bearer tokens for login.</description>
 
   <properties>
@@ -17,9 +17,9 @@
   </properties>
 
   <scm>
-    <connection>scm:svn:https://github.com/minfrin/tomcat7-jwt-authenticator.git/trunk</connection>
-    <developerConnection>scm:svn:https://github.com/minfrin/tomcat7-jwt-authenticator.git/trunk</developerConnection>
-    <url>https://github.com/minfrin/tomcat7-jwt-authenticator.git/trunk</url>
+    <connection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator.git/trunk</connection>
+    <developerConnection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator.git/trunk</developerConnection>
+    <url>https://github.com/minfrin/tomcat-jwt-authenticator.git/trunk</url>
   </scm>
 
   <build>
@@ -57,7 +57,7 @@
           </includes>
 -->
           <excludes>
-            <!-- required classes are missing from tomcat7 -->
+            <!-- required classes are missing from tomcat -->
             <exclude>**/JwtAuthenticatorTest.java</exclude>
           </excludes>
         </configuration>
