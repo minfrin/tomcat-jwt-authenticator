@@ -48,36 +48,59 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 /**
  * If a JWT Bearer token is included with the request, validate the token and
  * return the token subject as the principal.
- * 
+ *
  * @author minfrin
+ * @version $Id: $Id
  */
 public class JwtAuthenticator extends AuthenticatorBase {
 
 	private final static Log log = LogFactory.getLog(JwtAuthenticator.class);
 
+	/** Constant <code>BEARER="BEARER"</code> */
 	public static final String BEARER = "BEARER";
 
+	/** Constant <code>ALLOW_PLAIN="fm.sharp.jwt.allowPlain"</code> */
 	public static final String ALLOW_PLAIN = "fm.sharp.jwt.allowPlain";
+	/** Constant <code>DEFAULT_ALLOW_PLAIN="Boolean.FALSE.toString()"</code> */
 	public static final String DEFAULT_ALLOW_PLAIN = Boolean.FALSE.toString();
+	/** Constant <code>JWS_SECRET_FILE="fm.sharp.jws.SecretFile"</code> */
 	public static final String JWS_SECRET_FILE = "fm.sharp.jws.SecretFile";
+	/** Constant <code>JWS_JWK_SET_URL="fm.sharp.jws.JwkSetUrl"</code> */
 	public static final String JWS_JWK_SET_URL = "fm.sharp.jws.JwkSetUrl";
+	/** Constant <code>JWS_REMOTE_JWK_SET_URL="fm.sharp.jws.RemoteJwkSetUrl"</code> */
 	public static final String JWS_REMOTE_JWK_SET_URL = "fm.sharp.jws.RemoteJwkSetUrl";
+	/** Constant <code>JWS_ALGORITHM="fm.sharp.jwt.JWSAlgorithm"</code> */
 	public static final String JWS_ALGORITHM = "fm.sharp.jwt.JWSAlgorithm";
+	/** Constant <code>JWE_SECRET_FILE="fm.sharp.jwe.SecretFile"</code> */
 	public static final String JWE_SECRET_FILE = "fm.sharp.jwe.SecretFile";
+	/** Constant <code>JWE_JWK_SET_URL="fm.sharp.jwe.JwkSetUrl"</code> */
 	public static final String JWE_JWK_SET_URL = "fm.sharp.jwe.JwkSetUrl";
+	/** Constant <code>JWE_REMOTE_JWK_SET_URL="fm.sharp.jwe.RemoteJwkSetUrl"</code> */
 	public static final String JWE_REMOTE_JWK_SET_URL = "fm.sharp.jwe.RemoteJwkSetUrl";
+	/** Constant <code>JWE_ALGORITHM="fm.sharp.jwt.JWEAlgorithm"</code> */
 	public static final String JWE_ALGORITHM = "fm.sharp.jwt.JWEAlgorithm";
+	/** Constant <code>JWE_ENCRYPTION_METHOD="fm.sharp.jwt.JWEEncryptionMethod"</code> */
 	public static final String JWE_ENCRYPTION_METHOD = "fm.sharp.jwt.JWEEncryptionMethod";
+	/** Constant <code>JWT_MAX_CLOCK_SKEW="fm.sharp.jwt.MaxClockSkew"</code> */
 	public static final String JWT_MAX_CLOCK_SKEW = "fm.sharp.jwt.MaxClockSkew";
+	/** Constant <code>JWT_MAX_CLOCK_SKEW_DEFAULT="60"</code> */
 	public static final String JWT_MAX_CLOCK_SKEW_DEFAULT = "60";
 
 	protected Properties properties = null;
 
+	/**
+	 * <p>Constructor for JwtAuthenticator.</p>
+	 */
 	public JwtAuthenticator() {
 		super();
 		properties = System.getProperties();
 	}
 
+	/**
+	 * <p>Constructor for JwtAuthenticator.</p>
+	 *
+	 * @param properties a {@link java.util.Properties} object.
+	 */
 	public JwtAuthenticator(Properties properties) {
 		super();
 		this.properties = properties;
@@ -86,9 +109,11 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	/**
 	 * Parse the Authorization header, and extract the sub from the first valid JWT
 	 * found.
-	 * 
-	 * @param request
-	 * @return
+	 *
+	 * @param request a {@link org.apache.catalina.connector.Request} object.
+	 * @param properties a {@link java.util.Properties} object.
+	 * @param claimName a {@link java.lang.String} object.
+	 * @return a {@link java.lang.String} object.
 	 */
 	protected static String parseAuthorization(Properties properties, Request request, String claimName) {
 
@@ -422,11 +447,13 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected String getAuthMethod() {
 		return BEARER;
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	protected boolean doAuthenticate(Request request, HttpServletResponse response) throws IOException {
 
