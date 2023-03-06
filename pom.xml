@@ -178,8 +178,8 @@
                   <groupname>root</groupname>
                   <sources>
                     <softlinkSource>
-                      <location>${artifactId}-${project.version}.${project.packaging}</location>
-                      <destination>${artifactId}.${project.packaging}</destination>
+                      <location>${project.artifactId}-${project.version}.${project.packaging}</location>
+                      <destination>${project.artifactId}.${project.packaging}</destination>
                     </softlinkSource>
                   </sources>
                 </mapping>
