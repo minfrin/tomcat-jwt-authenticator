@@ -3,7 +3,7 @@
 
   <groupId>fm.sharp.tomcat</groupId>
   <artifactId>tomcat-jwt-authenticator</artifactId>
-  <version>1.2.1-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>Tomcat JWT Authenticator</name>
   <description>Tomcat authenticator that accepts JWT Bearer tokens for login.</description>
@@ -87,13 +87,13 @@
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-catalina</artifactId>
-      <version>8.0.53</version>
+      <version>8.5.87</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.tomcat</groupId>
       <artifactId>tomcat-util</artifactId>
-      <version>8.0.53</version>
+      <version>8.5.87</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

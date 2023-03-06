@@ -428,7 +428,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	}
 
 	@Override
-	public boolean authenticate(Request request, HttpServletResponse response) throws IOException {
+	protected boolean doAuthenticate(Request request, HttpServletResponse response) throws IOException {
 
 		if (checkForCachedAuthentication(request, response, false)) {
 			return true;
@@ -450,7 +450,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 		}
 
-        return false;
+		return false;
 
 	}
 
