@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.authenticator.AuthenticatorBase;
 import org.apache.catalina.connector.Request;
-import org.apache.catalina.deploy.LoginConfig;
 import org.apache.commons.lang.StringUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
@@ -429,7 +428,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	}
 
 	@Override
-	public boolean authenticate(Request request, HttpServletResponse response, LoginConfig arg2) throws IOException {
+	public boolean authenticate(Request request, HttpServletResponse response) throws IOException {
 
 		if (checkForCachedAuthentication(request, response, false)) {
 			return true;
