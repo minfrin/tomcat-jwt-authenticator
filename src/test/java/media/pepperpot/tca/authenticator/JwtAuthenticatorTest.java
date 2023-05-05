@@ -39,8 +39,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.PlainJWT;
 import com.nimbusds.jwt.SignedJWT;
 
-import media.pepperpot.tca.authenticator.JwtAuthenticator;
-
 /**
  * @author minfrin
  *

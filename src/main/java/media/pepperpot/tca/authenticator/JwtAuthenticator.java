@@ -8,9 +8,12 @@ import java.nio.file.Paths;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -85,6 +88,12 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	public static final String JWT_MAX_CLOCK_SKEW = "media.pepperpot.jwt.MaxClockSkew";
 	/** Constant <code>JWT_MAX_CLOCK_SKEW_DEFAULT="60"</code> */
 	public static final String JWT_MAX_CLOCK_SKEW_DEFAULT = "60";
+	/** Constant <code>JWT_ACCEPTED_AUDIENCE="media.pepperpot.jwt.AcceptedAudience"</code> */
+	public static final String JWT_ACCEPTED_AUDIENCE = "media.pepperpot.jwt.AcceptedAudience";
+	/** Constant <code>JWT_REQUIRED_CLAIMS="media.pepperpot.jwt.RequiredClaims"</code> */
+	public static final String JWT_REQUIRED_CLAIMS = "media.pepperpot.jwt.RequiredClaims";
+	/** Constant <code>JWT_PROHIBITED_CLAIMS="media.pepperpot.jwt.ProhibitedClaims"</code> */
+	public static final String JWT_PROHIBITED_CLAIMS = "media.pepperpot.jwt.ProhibitedClaims";
 
 	protected Properties properties = null;
 
@@ -225,8 +234,21 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					String jwtMaxClockSkewString = properties.getProperty(JWT_MAX_CLOCK_SKEW,
 							JWT_MAX_CLOCK_SKEW_DEFAULT);
+					String jwtAcceptedAudienceString = properties.getProperty(JWT_ACCEPTED_AUDIENCE);
+					String jwtRequiredClaimsString = properties.getProperty(JWT_REQUIRED_CLAIMS);
+					String jwtProhibitedClaimsString = properties.getProperty(JWT_PROHIBITED_CLAIMS);
 					try {
-						DefaultJWTClaimsVerifier<SecurityContext> claimsVerifier = new DefaultJWTClaimsVerifier<SecurityContext>();
+						Set<String> jwtAcceptedAudience = jwtAcceptedAudienceString == null ? null
+								: Arrays.stream(jwtAcceptedAudienceString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						Set<String> jwtRequiredClaims = jwtRequiredClaimsString == null ? null
+								: Arrays.stream(jwtRequiredClaimsString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						Set<String> jwtProhibitedClaims = jwtProhibitedClaimsString == null ? null
+								: Arrays.stream(jwtProhibitedClaimsString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						DefaultJWTClaimsVerifier<SecurityContext> claimsVerifier = new DefaultJWTClaimsVerifier<SecurityContext>(
+								jwtAcceptedAudience, null, jwtRequiredClaims, jwtProhibitedClaims);
 						claimsVerifier.setMaxClockSkew(Integer.parseInt(jwtMaxClockSkewString));
 						jwtProcessor.setJWTClaimsSetVerifier(claimsVerifier);
 					} catch (NumberFormatException e) {
@@ -383,8 +405,21 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					String jwtMaxClockSkewString = properties.getProperty(JWT_MAX_CLOCK_SKEW,
 							JWT_MAX_CLOCK_SKEW_DEFAULT);
+					String jwtAcceptedAudienceString = properties.getProperty(JWT_ACCEPTED_AUDIENCE);
+					String jwtRequiredClaimsString = properties.getProperty(JWT_REQUIRED_CLAIMS);
+					String jwtProhibitedClaimsString = properties.getProperty(JWT_PROHIBITED_CLAIMS);
 					try {
-						DefaultJWTClaimsVerifier<SecurityContext> claimsVerifier = new DefaultJWTClaimsVerifier<SecurityContext>();
+						Set<String> jwtAcceptedAudience = jwtAcceptedAudienceString == null ? null
+								: Arrays.stream(jwtAcceptedAudienceString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						Set<String> jwtRequiredClaims = jwtRequiredClaimsString == null ? null
+								: Arrays.stream(jwtRequiredClaimsString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						Set<String> jwtProhibitedClaims = jwtProhibitedClaimsString == null ? null
+								: Arrays.stream(jwtProhibitedClaimsString.split(",")).map(String::trim)
+										.collect(Collectors.toSet());
+						DefaultJWTClaimsVerifier<SecurityContext> claimsVerifier = new DefaultJWTClaimsVerifier<SecurityContext>(
+								jwtAcceptedAudience, null, jwtRequiredClaims, jwtProhibitedClaims);
 						claimsVerifier.setMaxClockSkew(Integer.parseInt(jwtMaxClockSkewString));
 						jwtProcessor.setJWTClaimsSetVerifier(claimsVerifier);
 					} catch (NumberFormatException e) {
