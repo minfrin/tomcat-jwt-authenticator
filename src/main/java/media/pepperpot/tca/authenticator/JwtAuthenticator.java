@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.authenticator.AuthenticatorBase;
 import org.apache.catalina.connector.Request;
-import org.apache.commons.lang.StringUtils;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 
@@ -183,7 +182,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					JWKSource<SecurityContext> keySource = null;
 
-					if (!StringUtils.isEmpty(jwsSecretFile)) {
+					if (!isBlank(jwsSecretFile)) {
 						byte[] secret;
 						try {
 							secret = Files.readAllBytes(Paths.get(jwsSecretFile));
@@ -193,7 +192,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!StringUtils.isEmpty(jwsJwkSetUrl)) {
+					} else if (!isBlank(jwsJwkSetUrl)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
 									JWKSet.load(new URL(jwsJwkSetUrl).openStream()));
@@ -206,7 +205,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
-					} else if (!StringUtils.isEmpty(jwsRemoteJwkSetUrl)) {
+					} else if (!isBlank(jwsRemoteJwkSetUrl)) {
 						try {
 							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jwsRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
@@ -275,7 +274,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					JWKSource<SecurityContext> keySource = null;
 // FIXME: jwsSecretFile ???
-					if (!StringUtils.isEmpty(jwsSecretFile)) {
+					if (!isBlank(jwsSecretFile)) {
 						byte[] secret;
 						try {
 							secret = Files.readAllBytes(Paths.get(jwsSecretFile));
@@ -285,7 +284,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!StringUtils.isEmpty(jwsJwkSetUrl)) {
+					} else if (!isBlank(jwsJwkSetUrl)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
 									JWKSet.load(new URL(jwsJwkSetUrl).openStream()));
@@ -298,7 +297,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
-					} else if (!StringUtils.isEmpty(jwsRemoteJwkSetUrl)) {
+					} else if (!isBlank(jwsRemoteJwkSetUrl)) {
 						try {
 							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jwsRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
@@ -310,7 +309,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					JWSAlgorithm expectedJWSAlg = null;
 					String jwsAlgorithmString = properties.getProperty(JWS_ALGORITHM);
-					if (!StringUtils.isEmpty(jwsAlgorithmString)) {
+					if (!isBlank(jwsAlgorithmString)) {
 						expectedJWSAlg = JWSAlgorithm.parse(jwsAlgorithmString);
 						if (expectedJWSAlg == null) {
 							statuses.add("JWT token is encrypted, but signature JWS algorithm was not recognised: "
@@ -332,7 +331,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 						jwtProcessor.setJWSKeySelector(keySelector);
 					}
 
-					if (!StringUtils.isEmpty(jweSecretFile)) {
+					if (!isBlank(jweSecretFile)) {
 						byte[] secret;
 						try {
 							secret = Files.readAllBytes(Paths.get(jweSecretFile));
@@ -342,7 +341,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!StringUtils.isEmpty(jweJwkSetUrl)) {
+					} else if (!isBlank(jweJwkSetUrl)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
 									JWKSet.load(new URL(jweJwkSetUrl).openStream()));
@@ -355,7 +354,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
-					} else if (!StringUtils.isEmpty(jweRemoteJwkSetUrl)) {
+					} else if (!isBlank(jweRemoteJwkSetUrl)) {
 						try {
 							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jweRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
@@ -371,7 +370,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					JWEAlgorithm expectedJWEAlg = null;
 					String jweAlgorithmString = properties.getProperty(JWE_ALGORITHM);
-					if (!StringUtils.isEmpty(jweAlgorithmString)) {
+					if (!isBlank(jweAlgorithmString)) {
 						expectedJWEAlg = JWEAlgorithm.parse(jweAlgorithmString);
 						if (expectedJWEAlg == null) {
 							statuses.add("JWT token is encrypted, but JWE algorithm was not recognised: "
@@ -386,7 +385,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					EncryptionMethod expectedJWEEnc = null;
 					String jweEncryptedMethodString = properties.getProperty(JWE_ENCRYPTION_METHOD);
-					if (!StringUtils.isEmpty(jweEncryptedMethodString)) {
+					if (!isBlank(jweEncryptedMethodString)) {
 						expectedJWEEnc = EncryptionMethod.parse(jweEncryptedMethodString);
 						if (expectedJWEEnc == null) {
 							statuses.add("JWT token is encrypted, but JWE encryption method was not recognised: "
@@ -516,6 +515,19 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 		return false;
 
+	}
+
+	private static boolean isBlank(String str) {
+	    int strLen;
+	    if (str == null || (strLen = str.length()) == 0) {
+	        return true;
+	    }
+	    for (int i = 0; i < strLen; i++) {
+	        if ((Character.isWhitespace(str.charAt(i)) == false)) {
+	            return false;
+	        }
+	    }
+	    return true;
 	}
 
 }
