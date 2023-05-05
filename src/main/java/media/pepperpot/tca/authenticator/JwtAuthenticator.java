@@ -28,7 +28,7 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import com.nimbusds.jose.jwk.source.JWKSource;
-import com.nimbusds.jose.jwk.source.RemoteJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSourceBuilder;
 import com.nimbusds.jose.proc.BadJOSEException;
 import com.nimbusds.jose.proc.JWEDecryptionKeySelector;
 import com.nimbusds.jose.proc.JWEKeySelector;
@@ -199,7 +199,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 						}
 					} else if (!StringUtils.isEmpty(jwsRemoteJwkSetUrl)) {
 						try {
-							keySource = new RemoteJWKSet<SecurityContext>(new URL(jwsRemoteJwkSetUrl));
+							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jwsRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
 							statuses.add("JWT token is signed, but remote JWK set '" + jwsRemoteJwkSetUrl
 									+ "' was a malformed URL: " + e.toString());
@@ -278,7 +278,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 						}
 					} else if (!StringUtils.isEmpty(jwsRemoteJwkSetUrl)) {
 						try {
-							keySource = new RemoteJWKSet<SecurityContext>(new URL(jwsRemoteJwkSetUrl));
+							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jwsRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
 							statuses.add("JWT token is encrypted, but signature remote JWK set '" + jwsRemoteJwkSetUrl
 									+ "' could not be read: " + e.toString());
@@ -335,7 +335,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 						}
 					} else if (!StringUtils.isEmpty(jweRemoteJwkSetUrl)) {
 						try {
-							keySource = new RemoteJWKSet<SecurityContext>(new URL(jweRemoteJwkSetUrl));
+							keySource = JWKSourceBuilder.<SecurityContext>create(new URL(jweRemoteJwkSetUrl)).build();
 						} catch (MalformedURLException e) {
 							statuses.add("JWT token is encrypted, but encryption remote JWK set '" + jweRemoteJwkSetUrl
 									+ "' could not be read: " + e.toString());
