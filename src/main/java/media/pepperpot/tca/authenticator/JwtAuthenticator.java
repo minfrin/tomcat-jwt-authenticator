@@ -461,8 +461,10 @@ public class JwtAuthenticator extends AuthenticatorBase {
 			return true;
 		}
 
-		log.warn("...attempting to process JWT token in request: request=" + request + ", remoteHost="
-				+ request.getRemoteHost() + ", remoteIP=" + request.getRemoteAddr());
+		if (log.isInfoEnabled()) {
+			log.info("...attempting to process JWT token in request: request=" + request + ", remoteHost="
+					+ request.getRemoteHost() + ", remoteIP=" + request.getRemoteAddr());
+		}
 
 		final String sub = parseAuthorization(properties, request, "sub");
 
