@@ -1,4 +1,4 @@
-package fm.sharp.tomcat.authenticator;
+package media.pepperpot.tca.authenticator;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -59,30 +59,30 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	/** Constant <code>BEARER="BEARER"</code> */
 	public static final String BEARER = "BEARER";
 
-	/** Constant <code>ALLOW_PLAIN="fm.sharp.jwt.allowPlain"</code> */
-	public static final String ALLOW_PLAIN = "fm.sharp.jwt.allowPlain";
+	/** Constant <code>ALLOW_PLAIN="media.pepperpot.jwt.allowPlain"</code> */
+	public static final String ALLOW_PLAIN = "media.pepperpot.jwt.allowPlain";
 	/** Constant <code>DEFAULT_ALLOW_PLAIN="Boolean.FALSE.toString()"</code> */
 	public static final String DEFAULT_ALLOW_PLAIN = Boolean.FALSE.toString();
-	/** Constant <code>JWS_SECRET_FILE="fm.sharp.jws.SecretFile"</code> */
-	public static final String JWS_SECRET_FILE = "fm.sharp.jws.SecretFile";
-	/** Constant <code>JWS_JWK_SET_URL="fm.sharp.jws.JwkSetUrl"</code> */
-	public static final String JWS_JWK_SET_URL = "fm.sharp.jws.JwkSetUrl";
-	/** Constant <code>JWS_REMOTE_JWK_SET_URL="fm.sharp.jws.RemoteJwkSetUrl"</code> */
-	public static final String JWS_REMOTE_JWK_SET_URL = "fm.sharp.jws.RemoteJwkSetUrl";
-	/** Constant <code>JWS_ALGORITHM="fm.sharp.jwt.JWSAlgorithm"</code> */
-	public static final String JWS_ALGORITHM = "fm.sharp.jwt.JWSAlgorithm";
-	/** Constant <code>JWE_SECRET_FILE="fm.sharp.jwe.SecretFile"</code> */
-	public static final String JWE_SECRET_FILE = "fm.sharp.jwe.SecretFile";
-	/** Constant <code>JWE_JWK_SET_URL="fm.sharp.jwe.JwkSetUrl"</code> */
-	public static final String JWE_JWK_SET_URL = "fm.sharp.jwe.JwkSetUrl";
-	/** Constant <code>JWE_REMOTE_JWK_SET_URL="fm.sharp.jwe.RemoteJwkSetUrl"</code> */
-	public static final String JWE_REMOTE_JWK_SET_URL = "fm.sharp.jwe.RemoteJwkSetUrl";
-	/** Constant <code>JWE_ALGORITHM="fm.sharp.jwt.JWEAlgorithm"</code> */
-	public static final String JWE_ALGORITHM = "fm.sharp.jwt.JWEAlgorithm";
-	/** Constant <code>JWE_ENCRYPTION_METHOD="fm.sharp.jwt.JWEEncryptionMethod"</code> */
-	public static final String JWE_ENCRYPTION_METHOD = "fm.sharp.jwt.JWEEncryptionMethod";
-	/** Constant <code>JWT_MAX_CLOCK_SKEW="fm.sharp.jwt.MaxClockSkew"</code> */
-	public static final String JWT_MAX_CLOCK_SKEW = "fm.sharp.jwt.MaxClockSkew";
+	/** Constant <code>JWS_SECRET_FILE="media.pepperpot.jws.SecretFile"</code> */
+	public static final String JWS_SECRET_FILE = "media.pepperpot.jws.SecretFile";
+	/** Constant <code>JWS_JWK_SET_URL="media.pepperpot.jws.JwkSetUrl"</code> */
+	public static final String JWS_JWK_SET_URL = "media.pepperpot.jws.JwkSetUrl";
+	/** Constant <code>JWS_REMOTE_JWK_SET_URL="media.pepperpot.jws.RemoteJwkSetUrl"</code> */
+	public static final String JWS_REMOTE_JWK_SET_URL = "media.pepperpot.jws.RemoteJwkSetUrl";
+	/** Constant <code>JWS_ALGORITHM="media.pepperpot.jwt.JWSAlgorithm"</code> */
+	public static final String JWS_ALGORITHM = "media.pepperpot.jwt.JWSAlgorithm";
+	/** Constant <code>JWE_SECRET_FILE="media.pepperpot.jwe.SecretFile"</code> */
+	public static final String JWE_SECRET_FILE = "media.pepperpot.jwe.SecretFile";
+	/** Constant <code>JWE_JWK_SET_URL="media.pepperpot.jwe.JwkSetUrl"</code> */
+	public static final String JWE_JWK_SET_URL = "media.pepperpot.jwe.JwkSetUrl";
+	/** Constant <code>JWE_REMOTE_JWK_SET_URL="media.pepperpot.jwe.RemoteJwkSetUrl"</code> */
+	public static final String JWE_REMOTE_JWK_SET_URL = "media.pepperpot.jwe.RemoteJwkSetUrl";
+	/** Constant <code>JWE_ALGORITHM="media.pepperpot.jwt.JWEAlgorithm"</code> */
+	public static final String JWE_ALGORITHM = "media.pepperpot.jwt.JWEAlgorithm";
+	/** Constant <code>JWE_ENCRYPTION_METHOD="media.pepperpot.jwt.JWEEncryptionMethod"</code> */
+	public static final String JWE_ENCRYPTION_METHOD = "media.pepperpot.jwt.JWEEncryptionMethod";
+	/** Constant <code>JWT_MAX_CLOCK_SKEW="media.pepperpot.jwt.MaxClockSkew"</code> */
+	public static final String JWT_MAX_CLOCK_SKEW = "media.pepperpot.jwt.MaxClockSkew";
 	/** Constant <code>JWT_MAX_CLOCK_SKEW_DEFAULT="60"</code> */
 	public static final String JWT_MAX_CLOCK_SKEW_DEFAULT = "60";
 

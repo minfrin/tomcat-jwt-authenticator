@@ -1,7 +1,7 @@
 /**
  * 
  */
-package fm.sharp.tomcat.authenticator;
+package media.pepperpot.tca.authenticator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -39,7 +39,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.PlainJWT;
 import com.nimbusds.jwt.SignedJWT;
 
-import fm.sharp.tomcat.authenticator.JwtAuthenticator;
+import media.pepperpot.tca.authenticator.JwtAuthenticator;
 
 /**
  * @author minfrin
