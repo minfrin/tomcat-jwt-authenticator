@@ -13,7 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <targetJdk>1.8</targetJdk>
     <project.svn.revision>$Revision: 7039 $</project.svn.revision>
-    <project.distribution>el7</project.distribution>
+    <project.distribution>el9</project.distribution>
   </properties>
 
   <scm>
@@ -83,6 +83,11 @@
             <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-scm-publish-plugin</artifactId>
+        <version>3.2.1</version>
+      </plugin>
     </plugins>
   </build>
 
@@ -130,15 +135,10 @@
   </dependencies>
 
   <distributionManagement>
-    <repository>
-      <id>www.sharp.fm</id>
-      <name>Sharp FM Repository</name>
-      <url>dav:https://www.sharp.fm/maven2</url>
-    </repository>
     <site>
-      <id>www.sharp.fm</id>
+      <id>github</id>
       <name>${project.name} Website</name>
-      <url>dav:https://www.sharp.fm/docs/${project.artifactId}/${project.version}/</url>
+      <url>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/branches/gh-pages/tomcat9</url>
     </site>
   </distributionManagement>
 
