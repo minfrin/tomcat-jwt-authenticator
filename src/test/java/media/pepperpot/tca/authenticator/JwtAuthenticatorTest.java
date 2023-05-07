@@ -9,8 +9,8 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.util.Collections;
 import java.util.Date;
@@ -112,10 +112,10 @@ public class JwtAuthenticatorTest {
 
 		assertNotNull(httpServletRequest.getHeader("Authorization"));
 
-		URL url = this.getClass().getResource("/rfc7515-a1.jwk");
+		String file = this.getClass().getResource("/rfc7515-a1.jwk").getFile();
 		Properties properties = new Properties();
 		properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, "HS256");
-		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_URL, url.toString());
+		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
 		properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
 
 		String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, "iss");
@@ -159,10 +159,10 @@ public class JwtAuthenticatorTest {
 
 		assertNotNull(httpServletRequest.getHeader("Authorization"));
 
-		URL url = this.getClass().getResource("/rfc7516-a2.jwk");
+		String file = this.getClass().getResource("/rfc7516-a2.jwk").getFile();
 		Properties properties = new Properties();
 		properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
-		properties.setProperty(JwtAuthenticator.JWE_JWK_SET_URL, url.toString());
+		properties.setProperty(JwtAuthenticator.JWE_JWK_SET_FILE, file);
 		properties.setProperty(JwtAuthenticator.JWE_ALGORITHM, "RSA1_5");
 		properties.setProperty(JwtAuthenticator.JWE_ENCRYPTION_METHOD, "A128CBC-HS256");
 
@@ -215,13 +215,13 @@ public class JwtAuthenticatorTest {
 
 		assertNotNull(httpServletRequest.getHeader("Authorization"));
 
-		URL jwsUrl = this.getClass().getResource("/rfc7515-a2.jwk");
-		URL jweUrl = this.getClass().getResource("/rfc7516-a2.jwk");
+		String jwsFile = this.getClass().getResource("/rfc7515-a2.jwk").getFile();
+		String jweFile = this.getClass().getResource("/rfc7516-a2.jwk").getFile();
 		Properties properties = new Properties();
 		properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
-		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_URL, jwsUrl.toString());
+		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, jwsFile);
 		properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, "RS256");
-		properties.setProperty(JwtAuthenticator.JWE_JWK_SET_URL, jweUrl.toString());
+		properties.setProperty(JwtAuthenticator.JWE_JWK_SET_FILE, jweFile);
 		properties.setProperty(JwtAuthenticator.JWE_ALGORITHM, "RSA1_5");
 		properties.setProperty(JwtAuthenticator.JWE_ENCRYPTION_METHOD, "A128CBC-HS256");
 
@@ -285,8 +285,8 @@ public class JwtAuthenticatorTest {
 	public void getSignedSubjectTest() throws JOSEException, IOException, ParseException {
 		Request httpServletRequest = mock(Request.class);
 
-		URL url = this.getClass().getResource("/rfc7515-a1.jwk");
-		JWKSet jwkset = JWKSet.load(url.openStream());
+		String file = this.getClass().getResource("/rfc7515-a1.jwk").getFile();
+		JWKSet jwkset = JWKSet.load(new File(file));
 		List<JWK> jwks = jwkset.getKeys();
 		OctetSequenceKey key = OctetSequenceKey.class.cast(jwks.iterator().next());
 		SecretKey secret = key.toSecretKey();
@@ -321,7 +321,7 @@ public class JwtAuthenticatorTest {
 
 		Properties properties = new Properties();
 		properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, "HS256");
-		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_URL, url.toString());
+		properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
 		properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
 
 		String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, "sub");

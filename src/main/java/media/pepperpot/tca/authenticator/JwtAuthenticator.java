@@ -1,5 +1,6 @@
 package media.pepperpot.tca.authenticator;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,16 +68,16 @@ public class JwtAuthenticator extends AuthenticatorBase {
 	public static final String DEFAULT_ALLOW_PLAIN = Boolean.FALSE.toString();
 	/** Constant <code>JWS_SECRET_FILE="media.pepperpot.jws.SecretFile"</code> */
 	public static final String JWS_SECRET_FILE = "media.pepperpot.jws.SecretFile";
-	/** Constant <code>JWS_JWK_SET_URL="media.pepperpot.jws.JwkSetUrl"</code> */
-	public static final String JWS_JWK_SET_URL = "media.pepperpot.jws.JwkSetUrl";
+	/** Constant <code>JWS_JWK_SET_FILE="media.pepperpot.jws.JwkSetFile"</code> */
+	public static final String JWS_JWK_SET_FILE = "media.pepperpot.jws.JwkSetFile";
 	/** Constant <code>JWS_REMOTE_JWK_SET_URL="media.pepperpot.jws.RemoteJwkSetUrl"</code> */
 	public static final String JWS_REMOTE_JWK_SET_URL = "media.pepperpot.jws.RemoteJwkSetUrl";
 	/** Constant <code>JWS_ALGORITHM="media.pepperpot.jwt.JWSAlgorithm"</code> */
 	public static final String JWS_ALGORITHM = "media.pepperpot.jwt.JWSAlgorithm";
 	/** Constant <code>JWE_SECRET_FILE="media.pepperpot.jwe.SecretFile"</code> */
 	public static final String JWE_SECRET_FILE = "media.pepperpot.jwe.SecretFile";
-	/** Constant <code>JWE_JWK_SET_URL="media.pepperpot.jwe.JwkSetUrl"</code> */
-	public static final String JWE_JWK_SET_URL = "media.pepperpot.jwe.JwkSetUrl";
+	/** Constant <code>JWE_JWK_SET_FILE="media.pepperpot.jwe.JwkSetFile"</code> */
+	public static final String JWE_JWK_SET_FILE = "media.pepperpot.jwe.JwkSetFile";
 	/** Constant <code>JWE_REMOTE_JWK_SET_URL="media.pepperpot.jwe.RemoteJwkSetUrl"</code> */
 	public static final String JWE_REMOTE_JWK_SET_URL = "media.pepperpot.jwe.RemoteJwkSetUrl";
 	/** Constant <code>JWE_ALGORITHM="media.pepperpot.jwt.JWEAlgorithm"</code> */
@@ -154,11 +155,11 @@ public class JwtAuthenticator extends AuthenticatorBase {
 			try {
 
 				String jwsSecretFile = properties.getProperty(JWS_SECRET_FILE);
-				String jwsJwkSetUrl = properties.getProperty(JWS_JWK_SET_URL);
+				String jwsJwkSetFile = properties.getProperty(JWS_JWK_SET_FILE);
 				String jwsRemoteJwkSetUrl = properties.getProperty(JWS_REMOTE_JWK_SET_URL);
 
 				String jweSecretFile = properties.getProperty(JWE_SECRET_FILE);
-				String jweJwkSetUrl = properties.getProperty(JWE_JWK_SET_URL);
+				String jweJwkSetFile = properties.getProperty(JWE_JWK_SET_FILE);
 				String jweRemoteJwkSetUrl = properties.getProperty(JWE_REMOTE_JWK_SET_URL);
 
 				JWT parsed = JWTParser.parse(jwt);
@@ -192,16 +193,12 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!isBlank(jwsJwkSetUrl)) {
+					} else if (!isBlank(jwsJwkSetFile)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
-									JWKSet.load(new URL(jwsJwkSetUrl).openStream()));
-						} catch (MalformedURLException e) {
-							statuses.add("JWT token is signed, but remote JWK set '" + jwsJwkSetUrl
-									+ "' was a malformed URL: " + e.toString());
-							continue;
+									JWKSet.load(new File(jwsJwkSetFile)));
 						} catch (IOException e) {
-							statuses.add("JWT token is signed, but remote JWK set '" + jwsJwkSetUrl
+							statuses.add("JWT token is signed, but remote JWK set '" + jwsJwkSetFile
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
@@ -273,7 +270,8 @@ public class JwtAuthenticator extends AuthenticatorBase {
 					ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<SecurityContext>();
 
 					JWKSource<SecurityContext> keySource = null;
-// FIXME: jwsSecretFile ???
+
+					/* use the jwsSecretFile as encryption secret, unless overridden below */
 					if (!isBlank(jwsSecretFile)) {
 						byte[] secret;
 						try {
@@ -284,16 +282,12 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!isBlank(jwsJwkSetUrl)) {
+					} else if (!isBlank(jwsJwkSetFile)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
-									JWKSet.load(new URL(jwsJwkSetUrl).openStream()));
-						} catch (MalformedURLException e) {
-							statuses.add("JWT token is encrypted, but signature remote JWK set '" + jwsJwkSetUrl
-									+ "' was a malformed URL: " + e.toString());
-							continue;
+									JWKSet.load(new File(jwsJwkSetFile)));
 						} catch (IOException e) {
-							statuses.add("JWT token is encrypted, but signature remote JWK set '" + jwsJwkSetUrl
+							statuses.add("JWT token is encrypted, but signature remote JWK set '" + jwsJwkSetFile
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
@@ -320,7 +314,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 
 					if (expectedJWSAlg != null && keySource == null) {
 						statuses.add("JWT token is encrypted and signature JWS algorithm was set to '"
-								+ jwsAlgorithmString + "', but none of '" + JWS_SECRET_FILE + "', '" + JWS_JWK_SET_URL
+								+ jwsAlgorithmString + "', but none of '" + JWS_SECRET_FILE + "', '" + JWS_JWK_SET_FILE
 								+ "', or '" + JWS_REMOTE_JWK_SET_URL + "' is set");
 						continue;
 					}
@@ -341,16 +335,12 @@ public class JwtAuthenticator extends AuthenticatorBase {
 							continue;
 						}
 						keySource = new ImmutableSecret<SecurityContext>(secret);
-					} else if (!isBlank(jweJwkSetUrl)) {
+					} else if (!isBlank(jweJwkSetFile)) {
 						try {
 							keySource = new ImmutableJWKSet<SecurityContext>(
-									JWKSet.load(new URL(jweJwkSetUrl).openStream()));
-						} catch (MalformedURLException e) {
-							statuses.add("JWT token is encrypted, but encryption remote JWK set '" + jweJwkSetUrl
-									+ "' was a malformed URL: " + e.toString());
-							continue;
+									JWKSet.load(new File(jweJwkSetFile)));
 						} catch (IOException e) {
-							statuses.add("JWT token is encrypted, but encryption remote JWK set '" + jweJwkSetUrl
+							statuses.add("JWT token is encrypted, but encryption remote JWK set '" + jweJwkSetFile
 									+ "' could not be read: " + e.toString());
 							continue;
 						}
@@ -364,7 +354,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
 						}
 					} else {
 						statuses.add("JWT token is encrypted, but we have no '" + JWE_SECRET_FILE + "'. '"
-								+ JWE_JWK_SET_URL + "' or '" + JWE_REMOTE_JWK_SET_URL + "' to verify it against");
+								+ JWE_JWK_SET_FILE + "' or '" + JWE_REMOTE_JWK_SET_URL + "' to verify it against");
 						continue;
 					}
 
