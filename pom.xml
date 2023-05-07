@@ -19,7 +19,7 @@
   <scm>
     <connection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/trunk</connection>
     <developerConnection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/trunk</developerConnection>
-    <url>https://github.com/minfrin/tomcat-jwt-authenticator/trunk</url>
+    <url>https://github.com/minfrin/tomcat-jwt-authenticator</url>
   </scm>
 
   <build>

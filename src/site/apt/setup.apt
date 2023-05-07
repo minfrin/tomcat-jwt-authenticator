@@ -1,0 +1,136 @@
+Setup
+
+* {Classpath}
+
+ Add <tomcat-jwt-authenticator> to the Tomcat classpath, along with <nimbus-jose-jwt>
+ and its dependency <jcip-annotations>.
+
+ For more details see the {{{./dependencies.html} dependencies}}.
+
+* {Deployment Descriptor web.xml}
+ 
+ Add the auth-method BEARER to the login-config in the web application
+ descriptor web.xml.
+
++-----+
+  <login-config>
+    <auth-method>BEARER</auth-method>
+    <realm-name>MyRealm</realm-name>
+  </login-config>
++-----+
+
+* {Token Security}
+
+ Bearer tokens can be passed in the clear, signed and/or encrypted. Pass properties
+ to Tomcat to configure the security level required.
+
+ ** {Plain Tokens}
+
+ A plain token is passed with claims in the clear, and the contents of the token
+ are used without further verification.
+
+ This must only be used where the channel over which the token is carried is
+ separately authenticated, such as through mutual TLS authentication, or unix
+ domain sockets, as a client has full control over the authentication.
+
+ This is typically used to pass authentication data between a proxy and a server
+ where the proxy has authenticated the user.
+
++-----+
+JAVA_OPTS="-Dmedia.pepperpot.jwt.allowPlain=true"
++-----+
+
+ ** {Signed Tokens}
+
+ A signed token is passed with claims in the clear, however the claims are only
+ accepted if the signature on the token is verified.
+
+ This must only be used where the channel over which the token is carried is kept
+ private, such as through TLS. While someone getting access to the channel will see
+ the contents of the token, the token cannot be altered.
+
+ To verify a signed token, specify the signing algorithm to be used, and the path to
+ a file containing the secret or public/private key.
+
++-----+
+JAVA_OPTS="-Dmedia.pepperpot.jwt.JWSAlgorithm=HS256 -Dmedia.pepperpot.jws.SecretFile=/etc/tomcat/jws-secret.txt"
++-----+
+
+ ** {Encrypted Tokens}
+
+ An encrypted token is passed with claims masked by encryption, and the claims are
+ only accepted if the encryption on the token is successfully decrypted and verified.
+
+ The channel over which the token is carried must be kept private, such as through TLS.
+
+ To verify an encrypted token, specify the encryption algorithm and encryption method
+ to be used, along with the file containing the key.
+
++-----+
+JAVA_OPTS="-Dmedia.pepperpot.jwt.JWEAlgorithm=RSA1_5 -Dmedia.pepperpot.jwt.JWEEncryptionMethod=A128CBC-HS256 -Dmedia.pepperpot.jwe.JwkSetFile=/etc/tomcat/rfc7516-a2.jwk"
++-----+
+
+* {Parameters}
+ 
+ No authentication is accepted without being explicitly switched on. To switch the
+ authenticator on, at least one of the parameters must be specified below.
+
+  * <<<media.pepperpot.jwt.allowPlain>>>: <<optional>>, Accept JWT tokens that
+   are both unsigned and unencrypted. Use over a separately authenticated
+   channel. This can be used where a proxy authenticates the user, and needs to
+   pass the user's identity to the server. Default to <false>.
+
+  * <<<media.pepperpot.jwt.JWSAlgorithm>>>: <<optional>>, Use the given algorithm
+  to verify the signatures on signed JWT tokens. Choose one of <HS256>, <HS384>
+  <HS512>, <RS256>, <RS384>, <RS512>, <ES256>, <ES256K>, <ES384>, <ES512>, <PS256>,
+  <PS384>, <PS512>, <EdDSA>.
+
+  * <<<media.pepperpot.jws.SecretFile>>>: <<optional>>, Accept signed JWT tokens
+   protected by the shared key in the file specified.
+
+  * <<<media.pepperpot.jws.JwkSetFile>>>: <<optional>>, Accept signed JWT tokens
+   protected by the keys in the file specified. The file is an RFC 7517 JWK file.
+
+  * <<<media.pepperpot.jws.RemoteJwkSetUrl>>>: <<optional>>, Accept signed JWT tokens
+   protected by the keys at the URL specified. The response to the URL is an RFC 7517 JWK file.
+
+  * <<<media.pepperpot.jwt.JWEAlgorithm>>>: <<optional>>, Use the given algorithm
+  to verify encrypted JWT tokens. Choose one of <RSA-OAEP-256>, <RSA-OAEP-384>,
+  <RSA-OAEP-512>, <RSA-OAEP> (deprecated), <RSA1_5> (deprecated), <A128KW>,
+  <A192KW>, <A256KW>, <dir>, <ECDH-ES>, <ESDH-ES+A128KW>, <ESDH-ES+A192KW>,
+  <ESDH-ES+A256KW>, <ECDH-1PU>, <ESDH-1PU+A128KW>, <ESDH-1PU+A192KW>
+  <ESDH-1PU+A256KW>, <PBES2-HS256+A128KW>, <PBES2-HS256+A192KW> or
+  <PBES2-HS256+A256KW>
+
+  * <<<media.pepperpot.jwt.JWEEncryptionMethod>>>: <<optional>>, Use the given encryption
+  method to verify encrypted JWT tokens. Choose one of <A128CBC-HS256>,
+  <A192CBC-HS384>, <A256CBC-HS512>, <A128GCM>, <A192GCM>, <A256GCM>, <XC20P>,
+  <A128CBC+HS256> (deprecated) or <A256CBC+HS512> (deprecated).
+
+  * <<<media.pepperpot.jwe.SecretFile>>>: <<optional>>, Accept encrypted JWT tokens
+   protected by the shared key in the file specified. If this option is unset,
+   the <<<media.pepperpot.jws.SecretFile>>> is used instead.
+
+  * <<<media.pepperpot.jwe.JwkSetFile>>>: <<optional>>, Accept encrypted JWT tokens
+   protected by the keys in the file specified. The file is an RFC 7517 JWK file.
+   If this option is unset, the <<<media.pepperpot.jws.JwkSetFile>>> is used
+   instead.
+
+  * <<<media.pepperpot.jwe.RemoteJwkSetUrl>>>: <<optional>>, Accept encrypted JWT
+   tokens protected by the keys at the URL specified. The response to the URL is
+   an RFC 7517 JWK file. If this option is unset, the
+   <<<media.pepperpot.jws.RemoteJwkSetUrl>>> is used instead.
+
+  * <<<media.pepperpot.jwt.MaxClockSkew>>>: <<optional>>, Allow a clock skew of the
+   number of seconds specified. Defaults to 60 seconds.
+
+  * <<<media.pepperpot.jwt.AcceptedAudience>>>: <<optional>>, Comma separated list of
+   audience strings that will be accepted. Any token outside of this list will not
+   be accepted.
+
+  * <<<media.pepperpot.jwt.RequiredClaims>>>: <<optional>>, Comma separated list of
+   claims that must be present for the token to be accepted.
+
+  * <<<media.pepperpot.jwt.ProhibitedClaims>>>: <<optional>>, Comma separated list
+   of claims that must be absent for the token to be accepted.
+
