@@ -7,6 +7,8 @@
   <packaging>jar</packaging>
   <name>Tomcat JWT Authenticator</name>
   <description>Tomcat authenticator that accepts JWT Bearer tokens for login.</description>
+  <url>https://minfrin.github.io/tomcat-jwt-authenticator</url>
+  <inceptionYear>2019</inceptionYear>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +23,18 @@
     <developerConnection>scm:svn:https://github.com/minfrin/tomcat-jwt-authenticator/trunk</developerConnection>
     <url>https://github.com/minfrin/tomcat-jwt-authenticator</url>
   </scm>
+
+  <developers>
+    <developer>
+      <id>minfrin</id>
+      <name>Graham Leggett</name>
+      <url>https://github.com/minfrin</url>
+      <roles>
+        <role>architect</role>
+      </roles>
+      <timezone>Europe/London</timezone>
+    </developer>
+  </developers>
 
   <build>
     <extensions>

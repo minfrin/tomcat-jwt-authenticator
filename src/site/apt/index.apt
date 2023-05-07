@@ -1,6 +1,7 @@
 Tomcat JWT Authenticator
 
- This extension for Apache Tomcat adds support for RFC 7519 JWT Bearer
+ This extension for Apache Tomcat adds support for
+ {{{https://www.rfc-editor.org/rfc/rfc7519}RFC 7519}} JWT Bearer
  tokens.
  
  Bearer tokens allow a web client or proxy to pass on the identity of
