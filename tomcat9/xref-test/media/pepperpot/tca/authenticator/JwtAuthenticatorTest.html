@@ -1,0 +1,357 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>JwtAuthenticatorTest xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../testapidocs/media/pepperpot/tca/authenticator/JwtAuthenticatorTest.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">package</strong> media.pepperpot.tca.authenticator;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertEquals;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.junit.Assert.assertNotNull;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.doAnswer;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.mock;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.when;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> java.io.File;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> java.text.ParseException;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> java.util.Collections;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> java.util.Date;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> java.util.Enumeration;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> java.util.HashMap;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> java.util.List;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> java.util.Map;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> java.util.Properties;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> javax.crypto.SecretKey;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.catalina.connector.Request;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.junit.Test;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.mockito.invocation.InvocationOnMock;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.mockito.stubbing.Answer;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.JOSEException;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.JWSAlgorithm;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.JWSHeader;
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.JWSSigner;
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.crypto.MACSigner;
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.jwk.JWK;
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.jwk.JWKSet;
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jose.jwk.OctetSequenceKey;
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jwt.JWTClaimsSet;
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jwt.PlainJWT;
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  <strong class="jxr_keyword">import</strong> com.nimbusds.jwt.SignedJWT;
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Test cases for the JwtAuthenticator.</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * These test cases are sourced from the JOSE RFCs.</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author minfrin</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="JwtAuthenticatorTest" href="../../../../media/pepperpot/tca/authenticator/JwtAuthenticatorTest.html#JwtAuthenticatorTest">JwtAuthenticatorTest</a> {
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * Default constructor.</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">public</strong> <a name="JwtAuthenticatorTest" href="../../../../media/pepperpot/tca/authenticator/JwtAuthenticatorTest.html#JwtAuthenticatorTest">JwtAuthenticatorTest</a>() {
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		<strong class="jxr_keyword">super</strong>();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	}
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     * Test a plain JWT as per <a href="https://tools.ietf.org/html/rfc7519" target="alexandria_uri">https://tools.ietf.org/html/rfc7519</a>#section-6.1</em>
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>      @Test
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getPlainISSTest() {
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>          Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>          <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>          headers.put(<span class="jxr_string">"Authorization"</span>,
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>                  <span class="jxr_string">"Bearer eyJhbGciOiJub25lIn0"</span> + <span class="jxr_string">"."</span> + <span class="jxr_string">"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt"</span>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>                          + <span class="jxr_string">"cGxlLmNvbS9pc19yb290Ijp0cnVlfQ"</span> + <span class="jxr_string">"."</span>);
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>          Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>          Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>          when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>          when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>          doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>              @Override
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>              <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>                  Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>                  <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>              }
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>          }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>          assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>          Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>          properties.setProperty(JwtAuthenticator.ALLOW_PLAIN, Boolean.TRUE.toString());
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"iss"</span>);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>          assertEquals(<span class="jxr_string">"joe"</span>, value);
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      }
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  <em class="jxr_javadoccomment">     * Test a signed JWT as per <a href="https://tools.ietf.org/html/rfc7519" target="alexandria_uri">https://tools.ietf.org/html/rfc7519</a>#section-3.1</em>
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>      @Test
+<a class="jxr_linenumber" name="L100" href="#L100">100</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getSignedISSTest() {
+<a class="jxr_linenumber" name="L101" href="#L101">101</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 
+<a class="jxr_linenumber" name="L103" href="#L103">103</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 
+<a class="jxr_linenumber" name="L105" href="#L105">105</a>         headers.put(<span class="jxr_string">"Authorization"</span>,
+<a class="jxr_linenumber" name="L106" href="#L106">106</a>                 <span class="jxr_string">"Bearer eyJ0eXAiOiJKV1QiLA0KICJhbGciOiJIUzI1NiJ9"</span> + <span class="jxr_string">"."</span>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>                         + <span class="jxr_string">"eyJpc3MiOiJqb2UiLA0KICJleHAiOjEzMDA4MTkzODAsDQogImh0dHA6Ly9leGFt"</span>
+<a class="jxr_linenumber" name="L108" href="#L108">108</a>                         + <span class="jxr_string">"cGxlLmNvbS9pc19yb290Ijp0cnVlfQ"</span> + <span class="jxr_string">"."</span> + <span class="jxr_string">"dBjftJeZ4CVP-mB92K27uhbUJU1p1r_wW1gFWFOEjXk"</span>);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 
+<a class="jxr_linenumber" name="L110" href="#L110">110</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L111" href="#L111">111</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 
+<a class="jxr_linenumber" name="L113" href="#L113">113</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a>             @Override
+<a class="jxr_linenumber" name="L118" href="#L118">118</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L119" href="#L119">119</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L120" href="#L120">120</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L121" href="#L121">121</a>             }
+<a class="jxr_linenumber" name="L122" href="#L122">122</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 
+<a class="jxr_linenumber" name="L124" href="#L124">124</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 
+<a class="jxr_linenumber" name="L126" href="#L126">126</a>         String file = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7515-a1.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L127" href="#L127">127</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L128" href="#L128">128</a>         properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, <span class="jxr_string">"HS256"</span>);
+<a class="jxr_linenumber" name="L129" href="#L129">129</a>         properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
+<a class="jxr_linenumber" name="L130" href="#L130">130</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
+<a class="jxr_linenumber" name="L132" href="#L132">132</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"iss"</span>);
+<a class="jxr_linenumber" name="L133" href="#L133">133</a> 
+<a class="jxr_linenumber" name="L134" href="#L134">134</a>         assertEquals(<span class="jxr_string">"joe"</span>, value);
+<a class="jxr_linenumber" name="L135" href="#L135">135</a> 
+<a class="jxr_linenumber" name="L136" href="#L136">136</a>     }
+<a class="jxr_linenumber" name="L137" href="#L137">137</a> 
+<a class="jxr_linenumber" name="L138" href="#L138">138</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L139" href="#L139">139</a> <em class="jxr_javadoccomment">     * Test an encrypted JWT as per <a href="https://tools.ietf.org/html/rfc7519" target="alexandria_uri">https://tools.ietf.org/html/rfc7519</a>#appendix-A.1</em>
+<a class="jxr_linenumber" name="L140" href="#L140">140</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L141" href="#L141">141</a>     @Test
+<a class="jxr_linenumber" name="L142" href="#L142">142</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getEncryptedISSTest() {
+<a class="jxr_linenumber" name="L143" href="#L143">143</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L144" href="#L144">144</a> 
+<a class="jxr_linenumber" name="L145" href="#L145">145</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L146" href="#L146">146</a> 
+<a class="jxr_linenumber" name="L147" href="#L147">147</a>         headers.put(<span class="jxr_string">"Authorization"</span>,
+<a class="jxr_linenumber" name="L148" href="#L148">148</a>                 <span class="jxr_string">"Bearer eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0."</span>
+<a class="jxr_linenumber" name="L149" href="#L149">149</a>                         + <span class="jxr_string">"QR1Owv2ug2WyPBnbQrRARTeEk9kDO2w8qDcjiHnSJflSdv1iNqhWXaKH4MqAkQtM"</span>
+<a class="jxr_linenumber" name="L150" href="#L150">150</a>                         + <span class="jxr_string">"oNfABIPJaZm0HaA415sv3aeuBWnD8J-Ui7Ah6cWafs3ZwwFKDFUUsWHSK-IPKxLG"</span>
+<a class="jxr_linenumber" name="L151" href="#L151">151</a>                         + <span class="jxr_string">"TkND09XyjORj_CHAgOPJ-Sd8ONQRnJvWn_hXV1BNMHzUjPyYwEsRhDhzjAD26ima"</span>
+<a class="jxr_linenumber" name="L152" href="#L152">152</a>                         + <span class="jxr_string">"sOTsgruobpYGoQcXUwFDn7moXPRfDE8-NoQX7N7ZYMmpUDkR-Cx9obNGwJQ3nM52"</span>
+<a class="jxr_linenumber" name="L153" href="#L153">153</a>                         + <span class="jxr_string">"YCitxoQVPzjbl7WBuB7AohdBoZOdZ24WlN1lVIeh8v1K4krB8xgKvRU8kgFrEn_a"</span> + <span class="jxr_string">"1rZgN5TiysnmzTROF869lQ."</span>
+<a class="jxr_linenumber" name="L154" href="#L154">154</a>                         + <span class="jxr_string">"AxY8DCtDaGlsbGljb3RoZQ."</span> + <span class="jxr_string">"MKOle7UQrG6nSxTLX6Mqwt0orbHvAKeWnDYvpIAeZ72deHxz3roJDXQyhxx0wKaM"</span>
+<a class="jxr_linenumber" name="L155" href="#L155">155</a>                         + <span class="jxr_string">"HDjUEOKIwrtkHthpqEanSBNYHZgmNOV7sln1Eu9g3J8."</span> + <span class="jxr_string">"fiK51VwhsxJ-siBMR-YFiA"</span>);
+<a class="jxr_linenumber" name="L156" href="#L156">156</a> 
+<a class="jxr_linenumber" name="L157" href="#L157">157</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L158" href="#L158">158</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L159" href="#L159">159</a> 
+<a class="jxr_linenumber" name="L160" href="#L160">160</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L161" href="#L161">161</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L162" href="#L162">162</a> 
+<a class="jxr_linenumber" name="L163" href="#L163">163</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L164" href="#L164">164</a>             @Override
+<a class="jxr_linenumber" name="L165" href="#L165">165</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L166" href="#L166">166</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L167" href="#L167">167</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L168" href="#L168">168</a>             }
+<a class="jxr_linenumber" name="L169" href="#L169">169</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L170" href="#L170">170</a> 
+<a class="jxr_linenumber" name="L171" href="#L171">171</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L172" href="#L172">172</a> 
+<a class="jxr_linenumber" name="L173" href="#L173">173</a>         String file = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7516-a2.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L174" href="#L174">174</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L175" href="#L175">175</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
+<a class="jxr_linenumber" name="L176" href="#L176">176</a>         properties.setProperty(JwtAuthenticator.JWE_JWK_SET_FILE, file);
+<a class="jxr_linenumber" name="L177" href="#L177">177</a>         properties.setProperty(JwtAuthenticator.JWE_ALGORITHM, <span class="jxr_string">"RSA1_5"</span>);
+<a class="jxr_linenumber" name="L178" href="#L178">178</a>         properties.setProperty(JwtAuthenticator.JWE_ENCRYPTION_METHOD, <span class="jxr_string">"A128CBC-HS256"</span>);
+<a class="jxr_linenumber" name="L179" href="#L179">179</a> 
+<a class="jxr_linenumber" name="L180" href="#L180">180</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"iss"</span>);
+<a class="jxr_linenumber" name="L181" href="#L181">181</a> 
+<a class="jxr_linenumber" name="L182" href="#L182">182</a>         assertEquals(<span class="jxr_string">"joe"</span>, value);
+<a class="jxr_linenumber" name="L183" href="#L183">183</a> 
+<a class="jxr_linenumber" name="L184" href="#L184">184</a>     }
+<a class="jxr_linenumber" name="L185" href="#L185">185</a> 
+<a class="jxr_linenumber" name="L186" href="#L186">186</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L187" href="#L187">187</a> <em class="jxr_javadoccomment">     * Test a nested JWT as per <a href="https://tools.ietf.org/html/rfc7519" target="alexandria_uri">https://tools.ietf.org/html/rfc7519</a>#appendix-A.2</em>
+<a class="jxr_linenumber" name="L188" href="#L188">188</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L189" href="#L189">189</a>     @Test
+<a class="jxr_linenumber" name="L190" href="#L190">190</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getNestedISSTest() {
+<a class="jxr_linenumber" name="L191" href="#L191">191</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L192" href="#L192">192</a> 
+<a class="jxr_linenumber" name="L193" href="#L193">193</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L194" href="#L194">194</a> 
+<a class="jxr_linenumber" name="L195" href="#L195">195</a>         headers.put(<span class="jxr_string">"Authorization"</span>,
+<a class="jxr_linenumber" name="L196" href="#L196">196</a>                 <span class="jxr_string">"Bearer eyJhbGciOiJSU0ExXzUiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2IiwiY3R5IjoiSldU"</span> + <span class="jxr_string">"In0."</span>
+<a class="jxr_linenumber" name="L197" href="#L197">197</a>                         + <span class="jxr_string">"g_hEwksO1Ax8Qn7HoN-BVeBoa8FXe0kpyk_XdcSmxvcM5_P296JXXtoHISr_DD_M"</span>
+<a class="jxr_linenumber" name="L198" href="#L198">198</a>                         + <span class="jxr_string">"qewaQSH4dZOQHoUgKLeFly-9RI11TG-_Ge1bZFazBPwKC5lJ6OLANLMd0QSL4fYE"</span>
+<a class="jxr_linenumber" name="L199" href="#L199">199</a>                         + <span class="jxr_string">"b9ERe-epKYE3xb2jfY1AltHqBO-PM6j23Guj2yDKnFv6WO72tteVzm_2n17SBFvh"</span>
+<a class="jxr_linenumber" name="L200" href="#L200">200</a>                         + <span class="jxr_string">"DuR9a2nHTE67pe0XGBUS_TK7ecA-iVq5COeVdJR4U4VZGGlxRGPLRHvolVLEHx6D"</span>
+<a class="jxr_linenumber" name="L201" href="#L201">201</a>                         + <span class="jxr_string">"YyLpw30Ay9R6d68YCLi9FYTq3hIXPK_-dmPlOUlKvPr1GgJzRoeC9G5qCvdcHWsq"</span> + <span class="jxr_string">"JGTO_z3Wfo5zsqwkxruxwA."</span>
+<a class="jxr_linenumber" name="L202" href="#L202">202</a>                         + <span class="jxr_string">"UmVkbW9uZCBXQSA5ODA1Mg."</span> + <span class="jxr_string">"VwHERHPvCNcHHpTjkoigx3_ExK0Qc71RMEParpatm0X_qpg-w8kozSjfNIPPXiTB"</span>
+<a class="jxr_linenumber" name="L203" href="#L203">203</a>                         + <span class="jxr_string">"BLXR65CIPkFqz4l1Ae9w_uowKiwyi9acgVztAi-pSL8GQSXnaamh9kX1mdh3M_TT"</span>
+<a class="jxr_linenumber" name="L204" href="#L204">204</a>                         + <span class="jxr_string">"-FZGQFQsFhu0Z72gJKGdfGE-OE7hS1zuBD5oEUfk0Dmb0VzWEzpxxiSSBbBAzP10"</span>
+<a class="jxr_linenumber" name="L205" href="#L205">205</a>                         + <span class="jxr_string">"l56pPfAtrjEYw-7ygeMkwBl6Z_mLS6w6xUgKlvW6ULmkV-uLC4FUiyKECK4e3WZY"</span>
+<a class="jxr_linenumber" name="L206" href="#L206">206</a>                         + <span class="jxr_string">"Kw1bpgIqGYsw2v_grHjszJZ-_I5uM-9RA8ycX9KqPRp9gc6pXmoU_-27ATs9XCvr"</span>
+<a class="jxr_linenumber" name="L207" href="#L207">207</a>                         + <span class="jxr_string">"ZXUtK2902AUzqpeEUJYjWWxSNsS-r1TJ1I-FMJ4XyAiGrfmo9hQPcNBYxPz3GQb2"</span>
+<a class="jxr_linenumber" name="L208" href="#L208">208</a>                         + <span class="jxr_string">"8Y5CLSQfNgKSGt0A4isp1hBUXBHAndgtcslt7ZoQJaKe_nNJgNliWtWpJ_ebuOpE"</span>
+<a class="jxr_linenumber" name="L209" href="#L209">209</a>                         + <span class="jxr_string">"l8jdhehdccnRMIwAmU1n7SPkmhIl1HlSOpvcvDfhUN5wuqU955vOBvfkBOh5A11U"</span>
+<a class="jxr_linenumber" name="L210" href="#L210">210</a>                         + <span class="jxr_string">"zBuo2WlgZ6hYi9-e3w29bR0C2-pp3jbqxEDw3iWaf2dc5b-LnR0FEYXvI_tYk5rd"</span>
+<a class="jxr_linenumber" name="L211" href="#L211">211</a>                         + <span class="jxr_string">"_J9N0mg0tQ6RbpxNEMNoA9QWk5lgdPvbh9BaO195abQ."</span> + <span class="jxr_string">"AVO9iT5AV4CzvDJCdhSFlQ"</span>);
+<a class="jxr_linenumber" name="L212" href="#L212">212</a> 
+<a class="jxr_linenumber" name="L213" href="#L213">213</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L214" href="#L214">214</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L215" href="#L215">215</a> 
+<a class="jxr_linenumber" name="L216" href="#L216">216</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L217" href="#L217">217</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L218" href="#L218">218</a> 
+<a class="jxr_linenumber" name="L219" href="#L219">219</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L220" href="#L220">220</a>             @Override
+<a class="jxr_linenumber" name="L221" href="#L221">221</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L222" href="#L222">222</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L223" href="#L223">223</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L224" href="#L224">224</a>             }
+<a class="jxr_linenumber" name="L225" href="#L225">225</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L226" href="#L226">226</a> 
+<a class="jxr_linenumber" name="L227" href="#L227">227</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L228" href="#L228">228</a> 
+<a class="jxr_linenumber" name="L229" href="#L229">229</a>         String jwsFile = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7515-a2.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L230" href="#L230">230</a>         String jweFile = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7516-a2.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L231" href="#L231">231</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L232" href="#L232">232</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
+<a class="jxr_linenumber" name="L233" href="#L233">233</a>         properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, jwsFile);
+<a class="jxr_linenumber" name="L234" href="#L234">234</a>         properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, <span class="jxr_string">"RS256"</span>);
+<a class="jxr_linenumber" name="L235" href="#L235">235</a>         properties.setProperty(JwtAuthenticator.JWE_JWK_SET_FILE, jweFile);
+<a class="jxr_linenumber" name="L236" href="#L236">236</a>         properties.setProperty(JwtAuthenticator.JWE_ALGORITHM, <span class="jxr_string">"RSA1_5"</span>);
+<a class="jxr_linenumber" name="L237" href="#L237">237</a>         properties.setProperty(JwtAuthenticator.JWE_ENCRYPTION_METHOD, <span class="jxr_string">"A128CBC-HS256"</span>);
+<a class="jxr_linenumber" name="L238" href="#L238">238</a> 
+<a class="jxr_linenumber" name="L239" href="#L239">239</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"iss"</span>);
+<a class="jxr_linenumber" name="L240" href="#L240">240</a> 
+<a class="jxr_linenumber" name="L241" href="#L241">241</a>         assertEquals(<span class="jxr_string">"joe"</span>, value);
+<a class="jxr_linenumber" name="L242" href="#L242">242</a> 
+<a class="jxr_linenumber" name="L243" href="#L243">243</a>     }
+<a class="jxr_linenumber" name="L244" href="#L244">244</a> 
+<a class="jxr_linenumber" name="L245" href="#L245">245</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">     * Test a plain JWT with a given subject.</em>
+<a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">     * @throws JOSEException Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a>     @Test
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getPlainSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException {
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L253" href="#L253">253</a> 
+<a class="jxr_linenumber" name="L254" href="#L254">254</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
+<a class="jxr_linenumber" name="L256" href="#L256">256</a> 
+<a class="jxr_linenumber" name="L257" href="#L257">257</a>         PlainJWT plainJWT = <strong class="jxr_keyword">new</strong> PlainJWT(claimsSet);
+<a class="jxr_linenumber" name="L258" href="#L258">258</a> 
+<a class="jxr_linenumber" name="L259" href="#L259">259</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + plainJWT.serialize());
+<a class="jxr_linenumber" name="L261" href="#L261">261</a> 
+<a class="jxr_linenumber" name="L262" href="#L262">262</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L264" href="#L264">264</a> 
+<a class="jxr_linenumber" name="L265" href="#L265">265</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a> 
+<a class="jxr_linenumber" name="L268" href="#L268">268</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>             @Override
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>             }
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L275" href="#L275">275</a> 
+<a class="jxr_linenumber" name="L276" href="#L276">276</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
+<a class="jxr_linenumber" name="L278" href="#L278">278</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         properties.setProperty(JwtAuthenticator.ALLOW_PLAIN, Boolean.TRUE.toString());
+<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
+<a class="jxr_linenumber" name="L281" href="#L281">281</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
+<a class="jxr_linenumber" name="L282" href="#L282">282</a> 
+<a class="jxr_linenumber" name="L283" href="#L283">283</a>         assertNotNull(value);
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a> 
+<a class="jxr_linenumber" name="L286" href="#L286">286</a>     }
+<a class="jxr_linenumber" name="L287" href="#L287">287</a> 
+<a class="jxr_linenumber" name="L288" href="#L288">288</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">     * Test a signed JWT with a given subject.</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">     * @throws JOSEException Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">     * @throws ParseException Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">     * @throws IOException Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a>     @Test
+<a class="jxr_linenumber" name="L296" href="#L296">296</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getSignedSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException, IOException, ParseException {
+<a class="jxr_linenumber" name="L297" href="#L297">297</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>         String file = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7515-a1.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>         JWKSet jwkset = JWKSet.load(<strong class="jxr_keyword">new</strong> File(file));
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         List&lt;JWK&gt; jwks = jwkset.getKeys();
+<a class="jxr_linenumber" name="L302" href="#L302">302</a>         OctetSequenceKey key = OctetSequenceKey.<strong class="jxr_keyword">class</strong>.<strong class="jxr_keyword">cast</strong>(jwks.iterator().next());
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         SecretKey secret = key.toSecretKey();
+<a class="jxr_linenumber" name="L304" href="#L304">304</a> 
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>         JWSSigner signer = <strong class="jxr_keyword">new</strong> MACSigner(secret.getEncoded());
+<a class="jxr_linenumber" name="L306" href="#L306">306</a> 
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
+<a class="jxr_linenumber" name="L308" href="#L308">308</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
+<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
+<a class="jxr_linenumber" name="L310" href="#L310">310</a>         SignedJWT signedJWT = <strong class="jxr_keyword">new</strong> SignedJWT(<strong class="jxr_keyword">new</strong> JWSHeader(JWSAlgorithm.HS256), claimsSet);
+<a class="jxr_linenumber" name="L311" href="#L311">311</a> 
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>         signedJWT.sign(signer);
+<a class="jxr_linenumber" name="L313" href="#L313">313</a> 
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L315" href="#L315">315</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + signedJWT.serialize());
+<a class="jxr_linenumber" name="L316" href="#L316">316</a> 
+<a class="jxr_linenumber" name="L317" href="#L317">317</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L319" href="#L319">319</a> 
+<a class="jxr_linenumber" name="L320" href="#L320">320</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L322" href="#L322">322</a> 
+<a class="jxr_linenumber" name="L323" href="#L323">323</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>             @Override
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L326" href="#L326">326</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>             }
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L330" href="#L330">330</a> 
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L332" href="#L332">332</a> 
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L334" href="#L334">334</a>         properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, <span class="jxr_string">"HS256"</span>);
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>         properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
+<a class="jxr_linenumber" name="L336" href="#L336">336</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
+<a class="jxr_linenumber" name="L337" href="#L337">337</a> 
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
+<a class="jxr_linenumber" name="L339" href="#L339">339</a> 
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
+<a class="jxr_linenumber" name="L341" href="#L341">341</a> 
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>     }
+<a class="jxr_linenumber" name="L343" href="#L343">343</a> 
+<a class="jxr_linenumber" name="L344" href="#L344">344</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2019&#x2013;2023. All rights reserved.</div>
+</body>
+</html>
