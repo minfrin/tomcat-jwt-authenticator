@@ -52,7 +52,6 @@ import com.nimbusds.jwt.proc.DefaultJWTProcessor;
  * If a JWT Bearer token is included with the request, validate the token and return the token subject as the principal.
  *
  * @author minfrin
- *
  * @version $Id: $Id
  */
 public class JwtAuthenticator extends AuthenticatorBase {
@@ -129,7 +128,6 @@ public class JwtAuthenticator extends AuthenticatorBase {
      *            a {@link java.util.Properties} object.
      * @param claimName
      *            a {@link java.lang.String} object.
-     *
      * @return a {@link java.lang.String} object.
      */
     protected static String parseAuthorization(Properties properties, Request request, String claimName) {
