@@ -93,6 +93,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
     /** Constant <code>JWT_PROHIBITED_CLAIMS="media.pepperpot.jwt.ProhibitedClaims"</code> */
     public static final String JWT_PROHIBITED_CLAIMS = "media.pepperpot.jwt.ProhibitedClaims";
 
+    /** Properties passed to the authenticator. */
     protected Properties properties = null;
 
     /**
@@ -127,6 +128,7 @@ public class JwtAuthenticator extends AuthenticatorBase {
      *            a {@link java.util.Properties} object.
      * @param claimName
      *            a {@link java.lang.String} object.
+     *
      * @return a {@link java.lang.String} object.
      */
     protected static String parseAuthorization(Properties properties, Request request, String claimName) {

@@ -40,10 +40,21 @@ import com.nimbusds.jwt.PlainJWT;
 import com.nimbusds.jwt.SignedJWT;
 
 /**
+ * Test cases for the JwtAuthenticator.
+ *
+ * These test cases are sourced from the JOSE RFCs.
+ *
  * @author minfrin
  *
  */
 public class JwtAuthenticatorTest {
+
+    /**
+     * Default constructor.
+     */
+    public JwtAuthenticatorTest() {
+        super();
+    }
 
     /**
      * Test a plain JWT as per https://tools.ietf.org/html/rfc7519#section-6.1
@@ -235,6 +246,7 @@ public class JwtAuthenticatorTest {
      * Test a plain JWT with a given subject.
      *
      * @throws JOSEException
+     *             Test fails if this exception is thrown
      */
     @Test
     public void getPlainSubjectTest() throws JOSEException {
@@ -278,8 +290,11 @@ public class JwtAuthenticatorTest {
      * Test a signed JWT with a given subject.
      *
      * @throws JOSEException
+     *             Test fails if this exception is thrown
      * @throws ParseException
+     *             Test fails if this exception is thrown
      * @throws IOException
+     *             Test fails if this exception is thrown
      */
     @Test
     public void getSignedSubjectTest() throws JOSEException, IOException, ParseException {
