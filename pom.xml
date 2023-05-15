@@ -168,6 +168,47 @@
     </dependency>
   </dependencies>
 
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <source>1.8</source>
+          <fixTags>version,since,param,return,throws,link</fixTags>
+          <fixClassComment>true</fixClassComment>
+          <fixFieldComment>true</fixFieldComment>
+          <fixMethodComment>true</fixMethodComment>
+          <detectJavaApiLink>false</detectJavaApiLink>
+          <level>private</level>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.3.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>3.20.0</version>
+        <configuration>
+          <targetjdk>1.8</targetjdk>
+          <format>xml</format>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <minimumTokens>100</minimumTokens>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-changes-plugin</artifactId>
+        <version>2.12.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
