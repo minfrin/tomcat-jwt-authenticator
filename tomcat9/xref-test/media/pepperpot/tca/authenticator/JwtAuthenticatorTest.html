@@ -49,22 +49,22 @@
 <a class="jxr_linenumber" name="L41" href="#L41">41</a>  
 <a class="jxr_linenumber" name="L42" href="#L42">42</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L43" href="#L43">43</a>  <em class="jxr_javadoccomment"> * Test cases for the JwtAuthenticator.</em>
-<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L45" href="#L45">45</a>  <em class="jxr_javadoccomment"> * These test cases are sourced from the JOSE RFCs.</em>
-<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> * </em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L47" href="#L47">47</a>  <em class="jxr_javadoccomment"> * @author minfrin</em>
 <a class="jxr_linenumber" name="L48" href="#L48">48</a>  <em class="jxr_javadoccomment"> *</em>
 <a class="jxr_linenumber" name="L49" href="#L49">49</a>  <em class="jxr_javadoccomment"> */</em>
 <a class="jxr_linenumber" name="L50" href="#L50">50</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a name="JwtAuthenticatorTest" href="../../../../media/pepperpot/tca/authenticator/JwtAuthenticatorTest.html#JwtAuthenticatorTest">JwtAuthenticatorTest</a> {
 <a class="jxr_linenumber" name="L51" href="#L51">51</a>  
-<a class="jxr_linenumber" name="L52" href="#L52">52</a>  	<em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">	 * Default constructor.</em>
-<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">	 */</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  <em class="jxr_javadoccomment">     * Default constructor.</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L55" href="#L55">55</a>      <strong class="jxr_keyword">public</strong> <a name="JwtAuthenticatorTest" href="../../../../media/pepperpot/tca/authenticator/JwtAuthenticatorTest.html#JwtAuthenticatorTest">JwtAuthenticatorTest</a>() {
-<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		<strong class="jxr_keyword">super</strong>();
-<a class="jxr_linenumber" name="L57" href="#L57">57</a>  	}
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>          <strong class="jxr_keyword">super</strong>();
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>      }
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>  
-<a class="jxr_linenumber" name="L59" href="#L59">59</a>  	<em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>      <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L60" href="#L60">60</a>  <em class="jxr_javadoccomment">     * Test a plain JWT as per <a href="https://tools.ietf.org/html/rfc7519" target="alexandria_uri">https://tools.ietf.org/html/rfc7519</a>#section-6.1</em>
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>      @Test
@@ -253,103 +253,107 @@
 <a class="jxr_linenumber" name="L245" href="#L245">245</a>     <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="L246" href="#L246">246</a> <em class="jxr_javadoccomment">     * Test a plain JWT with a given subject.</em>
 <a class="jxr_linenumber" name="L247" href="#L247">247</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">     * @throws JOSEException Test fails if this exception is thrown</em>
-<a class="jxr_linenumber" name="L249" href="#L249">249</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L250" href="#L250">250</a>     @Test
-<a class="jxr_linenumber" name="L251" href="#L251">251</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getPlainSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException {
-<a class="jxr_linenumber" name="L252" href="#L252">252</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L253" href="#L253">253</a> 
-<a class="jxr_linenumber" name="L254" href="#L254">254</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
-<a class="jxr_linenumber" name="L255" href="#L255">255</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
-<a class="jxr_linenumber" name="L256" href="#L256">256</a> 
-<a class="jxr_linenumber" name="L257" href="#L257">257</a>         PlainJWT plainJWT = <strong class="jxr_keyword">new</strong> PlainJWT(claimsSet);
-<a class="jxr_linenumber" name="L258" href="#L258">258</a> 
-<a class="jxr_linenumber" name="L259" href="#L259">259</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
-<a class="jxr_linenumber" name="L260" href="#L260">260</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + plainJWT.serialize());
-<a class="jxr_linenumber" name="L261" href="#L261">261</a> 
-<a class="jxr_linenumber" name="L262" href="#L262">262</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
-<a class="jxr_linenumber" name="L263" href="#L263">263</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
-<a class="jxr_linenumber" name="L264" href="#L264">264</a> 
-<a class="jxr_linenumber" name="L265" href="#L265">265</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
-<a class="jxr_linenumber" name="L266" href="#L266">266</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
-<a class="jxr_linenumber" name="L267" href="#L267">267</a> 
-<a class="jxr_linenumber" name="L268" href="#L268">268</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
-<a class="jxr_linenumber" name="L269" href="#L269">269</a>             @Override
-<a class="jxr_linenumber" name="L270" href="#L270">270</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="L271" href="#L271">271</a>                 Object[] args = invocation.getArguments();
-<a class="jxr_linenumber" name="L272" href="#L272">272</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
-<a class="jxr_linenumber" name="L273" href="#L273">273</a>             }
-<a class="jxr_linenumber" name="L274" href="#L274">274</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
-<a class="jxr_linenumber" name="L275" href="#L275">275</a> 
-<a class="jxr_linenumber" name="L276" href="#L276">276</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
-<a class="jxr_linenumber" name="L277" href="#L277">277</a> 
-<a class="jxr_linenumber" name="L278" href="#L278">278</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
-<a class="jxr_linenumber" name="L279" href="#L279">279</a>         properties.setProperty(JwtAuthenticator.ALLOW_PLAIN, Boolean.TRUE.toString());
-<a class="jxr_linenumber" name="L280" href="#L280">280</a> 
-<a class="jxr_linenumber" name="L281" href="#L281">281</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
-<a class="jxr_linenumber" name="L282" href="#L282">282</a> 
-<a class="jxr_linenumber" name="L283" href="#L283">283</a>         assertNotNull(value);
-<a class="jxr_linenumber" name="L284" href="#L284">284</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
-<a class="jxr_linenumber" name="L285" href="#L285">285</a> 
-<a class="jxr_linenumber" name="L286" href="#L286">286</a>     }
-<a class="jxr_linenumber" name="L287" href="#L287">287</a> 
-<a class="jxr_linenumber" name="L288" href="#L288">288</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L289" href="#L289">289</a> <em class="jxr_javadoccomment">     * Test a signed JWT with a given subject.</em>
-<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">     * @throws JOSEException Test fails if this exception is thrown</em>
-<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">     * @throws ParseException Test fails if this exception is thrown</em>
-<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">     * @throws IOException Test fails if this exception is thrown</em>
-<a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="L295" href="#L295">295</a>     @Test
-<a class="jxr_linenumber" name="L296" href="#L296">296</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getSignedSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException, IOException, ParseException {
-<a class="jxr_linenumber" name="L297" href="#L297">297</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L298" href="#L298">298</a> 
-<a class="jxr_linenumber" name="L299" href="#L299">299</a>         String file = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7515-a1.jwk"</span>).getFile();
-<a class="jxr_linenumber" name="L300" href="#L300">300</a>         JWKSet jwkset = JWKSet.load(<strong class="jxr_keyword">new</strong> File(file));
-<a class="jxr_linenumber" name="L301" href="#L301">301</a>         List&lt;JWK&gt; jwks = jwkset.getKeys();
-<a class="jxr_linenumber" name="L302" href="#L302">302</a>         OctetSequenceKey key = OctetSequenceKey.<strong class="jxr_keyword">class</strong>.<strong class="jxr_keyword">cast</strong>(jwks.iterator().next());
-<a class="jxr_linenumber" name="L303" href="#L303">303</a>         SecretKey secret = key.toSecretKey();
-<a class="jxr_linenumber" name="L304" href="#L304">304</a> 
-<a class="jxr_linenumber" name="L305" href="#L305">305</a>         JWSSigner signer = <strong class="jxr_keyword">new</strong> MACSigner(secret.getEncoded());
-<a class="jxr_linenumber" name="L306" href="#L306">306</a> 
-<a class="jxr_linenumber" name="L307" href="#L307">307</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
-<a class="jxr_linenumber" name="L308" href="#L308">308</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
-<a class="jxr_linenumber" name="L309" href="#L309">309</a> 
-<a class="jxr_linenumber" name="L310" href="#L310">310</a>         SignedJWT signedJWT = <strong class="jxr_keyword">new</strong> SignedJWT(<strong class="jxr_keyword">new</strong> JWSHeader(JWSAlgorithm.HS256), claimsSet);
-<a class="jxr_linenumber" name="L311" href="#L311">311</a> 
-<a class="jxr_linenumber" name="L312" href="#L312">312</a>         signedJWT.sign(signer);
+<a class="jxr_linenumber" name="L248" href="#L248">248</a> <em class="jxr_javadoccomment">     * @throws JOSEException</em>
+<a class="jxr_linenumber" name="L249" href="#L249">249</a> <em class="jxr_javadoccomment">     *             Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L250" href="#L250">250</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L251" href="#L251">251</a>     @Test
+<a class="jxr_linenumber" name="L252" href="#L252">252</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getPlainSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException {
+<a class="jxr_linenumber" name="L253" href="#L253">253</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L254" href="#L254">254</a> 
+<a class="jxr_linenumber" name="L255" href="#L255">255</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
+<a class="jxr_linenumber" name="L256" href="#L256">256</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
+<a class="jxr_linenumber" name="L257" href="#L257">257</a> 
+<a class="jxr_linenumber" name="L258" href="#L258">258</a>         PlainJWT plainJWT = <strong class="jxr_keyword">new</strong> PlainJWT(claimsSet);
+<a class="jxr_linenumber" name="L259" href="#L259">259</a> 
+<a class="jxr_linenumber" name="L260" href="#L260">260</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L261" href="#L261">261</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + plainJWT.serialize());
+<a class="jxr_linenumber" name="L262" href="#L262">262</a> 
+<a class="jxr_linenumber" name="L263" href="#L263">263</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L264" href="#L264">264</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L265" href="#L265">265</a> 
+<a class="jxr_linenumber" name="L266" href="#L266">266</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L267" href="#L267">267</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L268" href="#L268">268</a> 
+<a class="jxr_linenumber" name="L269" href="#L269">269</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L270" href="#L270">270</a>             @Override
+<a class="jxr_linenumber" name="L271" href="#L271">271</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L272" href="#L272">272</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L273" href="#L273">273</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L274" href="#L274">274</a>             }
+<a class="jxr_linenumber" name="L275" href="#L275">275</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L276" href="#L276">276</a> 
+<a class="jxr_linenumber" name="L277" href="#L277">277</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L278" href="#L278">278</a> 
+<a class="jxr_linenumber" name="L279" href="#L279">279</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L280" href="#L280">280</a>         properties.setProperty(JwtAuthenticator.ALLOW_PLAIN, Boolean.TRUE.toString());
+<a class="jxr_linenumber" name="L281" href="#L281">281</a> 
+<a class="jxr_linenumber" name="L282" href="#L282">282</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
+<a class="jxr_linenumber" name="L283" href="#L283">283</a> 
+<a class="jxr_linenumber" name="L284" href="#L284">284</a>         assertNotNull(value);
+<a class="jxr_linenumber" name="L285" href="#L285">285</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
+<a class="jxr_linenumber" name="L286" href="#L286">286</a> 
+<a class="jxr_linenumber" name="L287" href="#L287">287</a>     }
+<a class="jxr_linenumber" name="L288" href="#L288">288</a> 
+<a class="jxr_linenumber" name="L289" href="#L289">289</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L290" href="#L290">290</a> <em class="jxr_javadoccomment">     * Test a signed JWT with a given subject.</em>
+<a class="jxr_linenumber" name="L291" href="#L291">291</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="L292" href="#L292">292</a> <em class="jxr_javadoccomment">     * @throws JOSEException</em>
+<a class="jxr_linenumber" name="L293" href="#L293">293</a> <em class="jxr_javadoccomment">     *             Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L294" href="#L294">294</a> <em class="jxr_javadoccomment">     * @throws ParseException</em>
+<a class="jxr_linenumber" name="L295" href="#L295">295</a> <em class="jxr_javadoccomment">     *             Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L296" href="#L296">296</a> <em class="jxr_javadoccomment">     * @throws IOException</em>
+<a class="jxr_linenumber" name="L297" href="#L297">297</a> <em class="jxr_javadoccomment">     *             Test fails if this exception is thrown</em>
+<a class="jxr_linenumber" name="L298" href="#L298">298</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L299" href="#L299">299</a>     @Test
+<a class="jxr_linenumber" name="L300" href="#L300">300</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> getSignedSubjectTest() <strong class="jxr_keyword">throws</strong> JOSEException, IOException, ParseException {
+<a class="jxr_linenumber" name="L301" href="#L301">301</a>         Request httpServletRequest = mock(Request.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L302" href="#L302">302</a> 
+<a class="jxr_linenumber" name="L303" href="#L303">303</a>         String file = <strong class="jxr_keyword">this</strong>.getClass().getResource(<span class="jxr_string">"/rfc7515-a1.jwk"</span>).getFile();
+<a class="jxr_linenumber" name="L304" href="#L304">304</a>         JWKSet jwkset = JWKSet.load(<strong class="jxr_keyword">new</strong> File(file));
+<a class="jxr_linenumber" name="L305" href="#L305">305</a>         List&lt;JWK&gt; jwks = jwkset.getKeys();
+<a class="jxr_linenumber" name="L306" href="#L306">306</a>         OctetSequenceKey key = OctetSequenceKey.<strong class="jxr_keyword">class</strong>.<strong class="jxr_keyword">cast</strong>(jwks.iterator().next());
+<a class="jxr_linenumber" name="L307" href="#L307">307</a>         SecretKey secret = key.toSecretKey();
+<a class="jxr_linenumber" name="L308" href="#L308">308</a> 
+<a class="jxr_linenumber" name="L309" href="#L309">309</a>         JWSSigner signer = <strong class="jxr_keyword">new</strong> MACSigner(secret.getEncoded());
+<a class="jxr_linenumber" name="L310" href="#L310">310</a> 
+<a class="jxr_linenumber" name="L311" href="#L311">311</a>         JWTClaimsSet claimsSet = <strong class="jxr_keyword">new</strong> JWTClaimsSet.Builder().subject(<span class="jxr_string">"alice"</span>).issuer(<span class="jxr_string">"https://example.com"</span>)
+<a class="jxr_linenumber" name="L312" href="#L312">312</a>                 .expirationTime(<strong class="jxr_keyword">new</strong> Date(<strong class="jxr_keyword">new</strong> Date().getTime() + 60 * 1000)).build();
 <a class="jxr_linenumber" name="L313" href="#L313">313</a> 
-<a class="jxr_linenumber" name="L314" href="#L314">314</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
-<a class="jxr_linenumber" name="L315" href="#L315">315</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + signedJWT.serialize());
-<a class="jxr_linenumber" name="L316" href="#L316">316</a> 
-<a class="jxr_linenumber" name="L317" href="#L317">317</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
-<a class="jxr_linenumber" name="L318" href="#L318">318</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
-<a class="jxr_linenumber" name="L319" href="#L319">319</a> 
-<a class="jxr_linenumber" name="L320" href="#L320">320</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
-<a class="jxr_linenumber" name="L321" href="#L321">321</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
-<a class="jxr_linenumber" name="L322" href="#L322">322</a> 
-<a class="jxr_linenumber" name="L323" href="#L323">323</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
-<a class="jxr_linenumber" name="L324" href="#L324">324</a>             @Override
-<a class="jxr_linenumber" name="L325" href="#L325">325</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="L326" href="#L326">326</a>                 Object[] args = invocation.getArguments();
-<a class="jxr_linenumber" name="L327" href="#L327">327</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
-<a class="jxr_linenumber" name="L328" href="#L328">328</a>             }
-<a class="jxr_linenumber" name="L329" href="#L329">329</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
-<a class="jxr_linenumber" name="L330" href="#L330">330</a> 
-<a class="jxr_linenumber" name="L331" href="#L331">331</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
-<a class="jxr_linenumber" name="L332" href="#L332">332</a> 
-<a class="jxr_linenumber" name="L333" href="#L333">333</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
-<a class="jxr_linenumber" name="L334" href="#L334">334</a>         properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, <span class="jxr_string">"HS256"</span>);
-<a class="jxr_linenumber" name="L335" href="#L335">335</a>         properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
-<a class="jxr_linenumber" name="L336" href="#L336">336</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
-<a class="jxr_linenumber" name="L337" href="#L337">337</a> 
-<a class="jxr_linenumber" name="L338" href="#L338">338</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
-<a class="jxr_linenumber" name="L339" href="#L339">339</a> 
-<a class="jxr_linenumber" name="L340" href="#L340">340</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
+<a class="jxr_linenumber" name="L314" href="#L314">314</a>         SignedJWT signedJWT = <strong class="jxr_keyword">new</strong> SignedJWT(<strong class="jxr_keyword">new</strong> JWSHeader(JWSAlgorithm.HS256), claimsSet);
+<a class="jxr_linenumber" name="L315" href="#L315">315</a> 
+<a class="jxr_linenumber" name="L316" href="#L316">316</a>         signedJWT.sign(signer);
+<a class="jxr_linenumber" name="L317" href="#L317">317</a> 
+<a class="jxr_linenumber" name="L318" href="#L318">318</a>         <strong class="jxr_keyword">final</strong> Map&lt;String, String&gt; headers = <strong class="jxr_keyword">new</strong> HashMap&lt;String, String&gt;();
+<a class="jxr_linenumber" name="L319" href="#L319">319</a>         headers.put(<span class="jxr_string">"Authorization"</span>, <span class="jxr_string">"Bearer "</span> + signedJWT.serialize());
+<a class="jxr_linenumber" name="L320" href="#L320">320</a> 
+<a class="jxr_linenumber" name="L321" href="#L321">321</a>         Enumeration&lt;String&gt; headerNames = Collections.enumeration(headers.keySet());
+<a class="jxr_linenumber" name="L322" href="#L322">322</a>         Enumeration&lt;String&gt; headerValues = Collections.enumeration(headers.values());
+<a class="jxr_linenumber" name="L323" href="#L323">323</a> 
+<a class="jxr_linenumber" name="L324" href="#L324">324</a>         when(httpServletRequest.getHeaderNames()).thenReturn(headerNames);
+<a class="jxr_linenumber" name="L325" href="#L325">325</a>         when(httpServletRequest.getHeaders(<span class="jxr_string">"Authorization"</span>)).thenReturn(headerValues);
+<a class="jxr_linenumber" name="L326" href="#L326">326</a> 
+<a class="jxr_linenumber" name="L327" href="#L327">327</a>         doAnswer(<strong class="jxr_keyword">new</strong> Answer&lt;String&gt;() {
+<a class="jxr_linenumber" name="L328" href="#L328">328</a>             @Override
+<a class="jxr_linenumber" name="L329" href="#L329">329</a>             <strong class="jxr_keyword">public</strong> String answer(InvocationOnMock invocation) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="L330" href="#L330">330</a>                 Object[] args = invocation.getArguments();
+<a class="jxr_linenumber" name="L331" href="#L331">331</a>                 <strong class="jxr_keyword">return</strong> headers.get((String) args[0]);
+<a class="jxr_linenumber" name="L332" href="#L332">332</a>             }
+<a class="jxr_linenumber" name="L333" href="#L333">333</a>         }).when(httpServletRequest).getHeader(<span class="jxr_string">"Authorization"</span>);
+<a class="jxr_linenumber" name="L334" href="#L334">334</a> 
+<a class="jxr_linenumber" name="L335" href="#L335">335</a>         assertNotNull(httpServletRequest.getHeader(<span class="jxr_string">"Authorization"</span>));
+<a class="jxr_linenumber" name="L336" href="#L336">336</a> 
+<a class="jxr_linenumber" name="L337" href="#L337">337</a>         Properties properties = <strong class="jxr_keyword">new</strong> Properties();
+<a class="jxr_linenumber" name="L338" href="#L338">338</a>         properties.setProperty(JwtAuthenticator.JWS_ALGORITHM, <span class="jxr_string">"HS256"</span>);
+<a class="jxr_linenumber" name="L339" href="#L339">339</a>         properties.setProperty(JwtAuthenticator.JWS_JWK_SET_FILE, file);
+<a class="jxr_linenumber" name="L340" href="#L340">340</a>         properties.setProperty(JwtAuthenticator.JWT_MAX_CLOCK_SKEW, Integer.toString(Integer.MAX_VALUE));
 <a class="jxr_linenumber" name="L341" href="#L341">341</a> 
-<a class="jxr_linenumber" name="L342" href="#L342">342</a>     }
+<a class="jxr_linenumber" name="L342" href="#L342">342</a>         String value = JwtAuthenticator.parseAuthorization(properties, httpServletRequest, <span class="jxr_string">"sub"</span>);
 <a class="jxr_linenumber" name="L343" href="#L343">343</a> 
-<a class="jxr_linenumber" name="L344" href="#L344">344</a> }
+<a class="jxr_linenumber" name="L344" href="#L344">344</a>         assertEquals(<span class="jxr_string">"alice"</span>, value);
+<a class="jxr_linenumber" name="L345" href="#L345">345</a> 
+<a class="jxr_linenumber" name="L346" href="#L346">346</a>     }
+<a class="jxr_linenumber" name="L347" href="#L347">347</a> 
+<a class="jxr_linenumber" name="L348" href="#L348">348</a> }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2019&#x2013;2023. All rights reserved.</div>
