@@ -489,8 +489,8 @@ public class JwtAuthenticator extends AuthenticatorBase {
             return true;
         }
 
-        if (log.isInfoEnabled()) {
-            log.info("...attempting to process JWT token in request: request=" + request + ", remoteHost="
+        if (log.isDebugEnabled()) {
+            log.debug("...attempting to process JWT token in request: request=" + request + ", remoteHost="
                     + request.getRemoteHost() + ", remoteIP=" + request.getRemoteAddr());
         }
 
