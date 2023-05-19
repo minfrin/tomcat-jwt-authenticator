@@ -24,6 +24,15 @@
     <url>https://github.com/minfrin/tomcat-jwt-authenticator</url>
   </scm>
 
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>A business-friendly OSS license</comments>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
       <id>minfrin</id>
